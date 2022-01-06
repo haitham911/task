@@ -1,5 +1,5 @@
 # TASK
-
+Easy task
 ### String Specs
 
 Given a string that is a sequence of numbers followed by dash followed by text, eg: 23-ab-48-caba-56-haha
