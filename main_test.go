@@ -1,6 +1,7 @@
 package main
 
 import (
+	"reflect"
 	"testing"
 )
 
@@ -70,6 +71,36 @@ func Test_wholeStory(t *testing.T) {
 			}
 			if got != tt.want {
 				t.Errorf("wholeStory() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_storyStats(t *testing.T) {
+	type args struct {
+		str string
+	}
+	dict := map[string]string{"shortest": "hello", "longest": "worldlong", "average": "7"}
+
+	tests := []struct {
+		name    string
+		args    args
+		want    map[string]string
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+		{name: "test hello world", args: args{str: " hello worldlong"}, want: dict},
+		{name: "test error", args: args{str: " "}, wantErr: true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := storyStats(tt.args.str)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("storyStats() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("storyStats() = %v, want %v", got, tt.want)
 			}
 		})
 	}
