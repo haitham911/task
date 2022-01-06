@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"math"
-	"math/rand"
 	"os"
 	"regexp"
 	"strconv"
@@ -14,6 +13,11 @@ import (
 
 func main() {
 	str := "23-ab-48-caba-56-haha"
+	vaild := testValidity(str)
+	if !vaild {
+		fmt.Println("invald string")
+		os.Exit(-1)
+	}
 	result, err := wholeStory(str)
 	if err != nil {
 		log.Println("Error : " + err.Error())
@@ -29,12 +33,7 @@ func main() {
 	fmt.Println("longest  : " + strstats["longest"])
 	fmt.Println("average  : " + strstats["average"])
 	x := round(strstats["average"])
-	fmt.Println(fmt.Sprintf("average round : %v", x))
-
-	strrandom := RandStringBytesMask(true, result)
-	fmt.Println(strrandom)
-	strrandom = RandStringBytesMask(false, result)
-	fmt.Println(strrandom)
+	fmt.Sprintf("average round : %v", x)
 
 }
 func round(x string) float64 {
@@ -58,10 +57,6 @@ func wholeStory(str string) (string, error) {
 
 	patern := `[-]?\d[\d]*[\]?[\d{2}]*?[-]`
 	re := regexp.MustCompile(patern)
-
-	fmt.Printf("Pattern: %v\n", re.String()) // Print Pattern
-
-	fmt.Printf("String contains any match: %v\n", re.MatchString(str)) // True
 	// Finding the number from
 	// the given string
 	// Using FindAllStrings() method
@@ -148,18 +143,8 @@ const (
 	letterIdxMask = 1<<letterIdxBits - 1 // All 1-bits, as many as letterIdxBits
 )
 
-func RandStringBytesMask(flag bool, letterBytes string) string {
-	n := len(letterBytes)
-	if !flag {
-		letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-	}
-	b := make([]byte, n)
-	for i := 0; i < n; {
-		if idx := int(rand.Int63() & letterIdxMask); idx < len(letterBytes) {
-			b[i] = letterBytes[idx]
-			i++
-		}
-	}
-	return string(b)
+func testValidity(str string) bool {
+	patern := `[-]?\d[\d]*[\]?[\d{2}]*?[-]`
+	re := regexp.MustCompile(patern)
+	return re.MatchString(str)
 }
